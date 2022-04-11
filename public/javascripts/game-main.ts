@@ -232,7 +232,7 @@ class Game {
       if (!cell.classList.contains("hint")) {
         this.unhint();
       }
-      console.log(cell);
+      // console.log(cell);
       // console.log(cell.dataset.x);
       // console.log(cell.dataset.y);
 
@@ -291,272 +291,19 @@ class Game {
           self.data.cell_clicked.classList.add("complete");
           self.data.cell_clicked = false;
           self.data.cell_complete += 2;
-          // if (self.data.cell_complete >= self.data.cell_total) {
-          //     /*
-          //      * Complete the current level
-          //      */
-          //     self.nextlevel();
-          // } else {
-          //     self.auto_random_cell();
-          // }
+          let checkDone = self.data.cell_complete / self.data.cell_total;
+          console.log(checkDone);
+
+          if (checkDone == 2) {
+            /*
+             * Complete the current level
+             */
+            self.nextlevel();
+          } else {
+            // self.auto_random_cell();
+          }
           self.data.wait_time = false;
         }, this.data.cell_effect_time);
-      }
-    }
-  }
-  check_has_path_1(
-    pointer_1: { x: number; y: number },
-    pointer_2: { x: number; y: number }
-  ) {
-    if (pointer_1.x == pointer_2.x && pointer_1.y == pointer_2.y) {
-      //click 1 cell 2 times => false
-      return false;
-    }
-    if (pointer_1.x == pointer_2.x || pointer_1.y == pointer_2.y) {
-      //x:0 y:1, x:1 y:1
-      if (pointer_1.x == pointer_2.x) {
-        var delta_x = 0;
-        var delta_y = 1;
-        if (pointer_2.y < pointer_1.y) {
-          var delta_y = -1;
-        }
-      } else {
-        var delta_y = 0;
-        var delta_x = 1;
-        if (pointer_2.x < pointer_1.x) {
-          var delta_x = -1;
-        }
-      }
-      var ar_path = [];
-      var w_flag = true;
-      var i = 0;
-      while (w_flag) {
-        var pointer_current = {
-          //x:0 y:1
-          //x:0 y:2
-          x: pointer_1.x + i * delta_x,
-          y: pointer_1.y + i * delta_y,
-        };
-        if (
-          pointer_current.x == pointer_1.x &&
-          pointer_current.y == pointer_1.y
-        ) {
-          ar_path.push(pointer_current);
-        } else {
-          if (
-            pointer_current.x == pointer_2.x &&
-            pointer_current.y == pointer_2.y
-          ) {
-            ar_path.push(pointer_current);
-            return ar_path;
-          }
-          if (this.check_pointer_is_out(pointer_current)) {
-            ar_path.push(pointer_current);
-          } else {
-            if (
-              !this.pointer_to_cell(pointer_current)?.classList.contains(
-                "complete"
-              )
-            ) {
-              console.log(false);
-              return false;
-            }
-          }
-        }
-        i++;
-      }
-    }
-    return false;
-  }
-  check_has_path_2(
-    pointer_1: { x: any; y: any },
-    pointer_2: { x: any; y: any }
-  ) {
-    if (pointer_1.x == pointer_2.x || pointer_1.y == pointer_2.y) {
-      return false;
-    }
-    var pointer = {
-      x: pointer_1.x,
-      y: pointer_2.y,
-    };
-    var path = this.check_has_path_of_three(pointer_1, pointer, pointer_2);
-    if (path != false) {
-      return path;
-    }
-    var pointer = {
-      x: pointer_2.x,
-      y: pointer_1.y,
-    };
-    var path = this.check_has_path_of_three(pointer_1, pointer, pointer_2);
-    if (path != false) {
-      return path;
-    }
-    return false;
-  }
-  check_has_path_3(
-    pointer_1: { x: number; y: number },
-    pointer_2: { x: number; y: number }
-  ) {
-    if (pointer_1.x != pointer_2.x) {
-      for (var i = -1; i <= this.data.cell_total_v; i++) {
-        if (i != pointer_1.y && i != pointer_2.y) {
-          var pointer_3 = {
-            x: pointer_1.x,
-            y: i,
-          };
-          var pointer_4 = {
-            x: pointer_2.x,
-            y: i,
-          };
-          var path = this.check_has_path_of_four(
-            pointer_1,
-            pointer_3,
-            pointer_4,
-            pointer_2
-          );
-          if (path != false) {
-            return path;
-          }
-        }
-      }
-    }
-    if (pointer_1.y != pointer_2.y) {
-      for (var i = -1; i <= this.data.cell_total_h; i++) {
-        if (i != pointer_1.x && i != pointer_2.x) {
-          var pointer_3 = {
-            x: i,
-            y: pointer_1.y,
-          };
-          var pointer_4 = {
-            x: i,
-            y: pointer_2.y,
-          };
-          var path = this.check_has_path_of_four(
-            pointer_1,
-            pointer_3,
-            pointer_4,
-            pointer_2
-          );
-          if (path != false) {
-            return path;
-          }
-        }
-      }
-    }
-
-    return false;
-  }
-  check_has_path_of_three(
-    pointer_1: any,
-    pointer_2: { x: any; y: any },
-    pointer_3: any
-  ) {
-    if (!this.check_pointer_is_out(pointer_2)) {
-      if (!this.pointer_to_cell(pointer_2).classList.contains("complete")) {
-        return false;
-      }
-    }
-    var path_1 = this.check_has_path_1(pointer_1, pointer_2);
-    if (path_1 == false) {
-      return false;
-    }
-    var path_2 = this.check_has_path_1(pointer_2, pointer_3);
-    if (path_2 == false) {
-      return false;
-    }
-    var path: { x: any; y: any }[] = [];
-    path_1.forEach(function (item, index) {
-      path.push(item);
-    });
-
-    path_2.forEach(function (item, index) {
-      path.push(item);
-    });
-    return path;
-  }
-  check_has_path_of_four(
-    pointer_1: any,
-    pointer_2: { x: any; y: number },
-    pointer_3: { x: any; y: number },
-    pointer_4: any
-  ) {
-    if (!this.check_pointer_is_out(pointer_2)) {
-      if (!this.pointer_to_cell(pointer_2).classList.contains("complete")) {
-        return false;
-      }
-    }
-    if (!this.check_pointer_is_out(pointer_3)) {
-      if (!this.pointer_to_cell(pointer_3).classList.contains("complete")) {
-        return false;
-      }
-    }
-    var path_1 = this.check_has_path_1(pointer_1, pointer_2);
-    if (path_1 == false) {
-      return false;
-    }
-    var path_2 = this.check_has_path_1(pointer_2, pointer_3);
-    if (path_2 == false) {
-      return false;
-    }
-    var path_3 = this.check_has_path_1(pointer_3, pointer_4);
-    if (path_3 == false) {
-      return false;
-    }
-    var path: { x: any; y: any }[] = [];
-    path_1.forEach(function (item, index) {
-      path.push(item);
-    });
-    path_2.forEach(function (item, index) {
-      path.push(item);
-    });
-    path_3.forEach(function (item, index) {
-      path.push(item);
-    });
-    return path;
-  }
-  check_pointer_is_out(pointer: { x: any; y: any }) {
-    //x:0 y:2
-    if (pointer.x < 0 || pointer.x >= this.data.cell_total_h) {
-      return true;
-    }
-    if (pointer.y < 0 || pointer.y >= this.data.cell_total_v) {
-      return true;
-    }
-    return false;
-  }
-  cell_to_pointer(cell: HTMLImageElement) {
-    return {
-      x: cell.dataset.x,
-      y: cell.dataset.y,
-    };
-  }
-  pointer_to_cell(pointer: { x: any; y: any }) {
-    if (this.check_pointer_is_out(pointer)) {
-      //   return false;
-      console.log(document.getElementById("check_out"));
-
-      return document.getElementById("check_out") as HTMLDivElement;
-    }
-    return document.getElementById(
-      "cell_" + pointer.x + "_" + pointer.y
-    ) as HTMLDivElement;
-    // $("#cell_" + pointer.x + "_" + pointer.y);
-  }
-  check_has_path(pointer_1: any, pointer_2: any) {
-    var path = this.check_has_path_1(pointer_1, pointer_2);
-    if (path != false) {
-      return path;
-    } else {
-      path = this.check_has_path_2(pointer_1, pointer_2);
-      if (path != false) {
-        return path;
-      } else {
-        path = this.check_has_path_3(pointer_1, pointer_2);
-        if (path != false) {
-          return path;
-        } else {
-          return false;
-        }
       }
     }
   }
@@ -577,6 +324,13 @@ class Game {
     //     clearTimeout(this.data.timeleft_timeout);
     // }
     // this.update_time();
+  }
+  nextlevel() {
+    this.data.level_current++;
+    if (this.data.level_current >= this.level.length) {
+      this.data.level_current = 0;
+    }
+    this.start();
   }
   refreshGameContainer() {
     var headerHeight = this.selector.game_header.clientHeight;
