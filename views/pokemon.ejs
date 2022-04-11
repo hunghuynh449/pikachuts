@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Pikachu</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"
+    />
+    <base href="" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link href="/stylesheets/library.css" rel="stylesheet" />
+    <link href="/stylesheets/summary1.css" rel="stylesheet" />
+    <link href="/stylesheets/summary2.css" rel="stylesheet" />
+    <link href="/stylesheets/game.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="game_box">
+      <div class="width_max1000px game">
+        <div class="game_header hide">
+          <div class="padding">
+            <div class="width3 width3_0_9">
+              <span class="game_header_block">
+                Level :
+                <span class="game_level">1</span>
+              </span>
+              &nbsp;&nbsp;
+              <span class="game_header_block">
+                <span class="stt_action btn_hint">
+                  <i class="fa fa-search"></i><span class="hint_left">0</span>
+                </span>
+              </span>
+            </div>
+            <div class="width3 width3_0_3 align_right">
+              <i
+                class="fa fa-headphones btn_mute stt_action stt_avaiable"
+                title="Tắt tiếng"
+              ></i>
+            </div>
+            <div class="clear_both"></div>
+          </div>
+        </div>
+        <div class="game_content">
+          <div class="game_layer end hide">
+            <div class="padding"></div>
+          </div>
+          <div class="game_layer running">
+            <div class="game_cell_box"></div>
+          </div>
+          <div class="game_runtime hide">
+            <div class="game_runtime_running"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/javascripts/game-main.js"></script>
+  </body>
+</html>
